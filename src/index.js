@@ -1,6 +1,6 @@
 
 import { Viewport } from './viewport.js';
-import { DataViewer, loadTransforms } from './dataViewer.js';
+import { SceneViewer, loadTransforms } from './sceneViewer.js';
 
 export let targetWidth = 1600;
 export let targetHeight = 900;
@@ -17,7 +17,7 @@ export let touch = null; // set to what callback is referencing
 let fixedDt = 1 / 60;
 let dtTimer = 0;
 
-let dataViewer;
+let sceneViewer;
 
 window.preload = function () {
     gfx = {
@@ -53,17 +53,17 @@ window.setup = function () {
     smooth();
 
     viewport = new Viewport(targetWidth, targetHeight);
-    dataViewer = new DataViewer();
-    window.dataViewer = dataViewer;
+    sceneViewer = new SceneViewer();
+    window.sceneViewer = sceneViewer;
 
-    document.addEventListener('mousemove', e => dataViewer.mouseMoved(e));
+    document.addEventListener('mousemove', e => sceneViewer.mouseMoved(e));
 }
 
 function pressed() {
-    dataViewer.mousePressed();
+    sceneViewer.mousePressed();
 }
 function released() {
-    dataViewer.mouseReleased();
+    sceneViewer.mouseReleased();
 }
 
 window.mousePressed = function (event) {
@@ -90,6 +90,18 @@ window.touchStarted = function (event) {
 
 window.mouseReleased = function (event) {
     event.preventDefault();
+    // mouseButton not always accurate when multiple were down
+    switch (event.button) {
+        case 0:
+            window.mouseButton = LEFT;
+            break;
+        case 1:
+            window.mouseButton = CENTER;
+            break;
+        case 2:
+            window.mouseButton = RIGHT;
+            break;
+    }
     if (touchTimer > 0.5) {
         released();
     }
@@ -117,7 +129,7 @@ window.mouseWheel = function (event) {
 }
 
 window.keyPressed = function (event) {
-    dataViewer.keyPressed();
+    sceneViewer.keyPressed();
 }
 
 function update() {
@@ -138,7 +150,7 @@ function update() {
 }
 
 function fixedUpdate(dt) {
-    dataViewer.update(dt);
+    sceneViewer.update(dt);
 }
 
 window.draw = function () {
@@ -148,7 +160,7 @@ window.draw = function () {
 
     viewport.set();
 
-    dataViewer.draw();
+    sceneViewer.draw();
 
     // cover top/bottom off-screen graphics
     fill('#1F1F1F');

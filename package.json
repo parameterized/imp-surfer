@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/parameterized/imp-surfer#readme",
   "dependencies": {
+    "@tensorflow/tfjs": "^2.3.0",
     "core-js": "^3.6.5"
   },
   "devDependencies": {

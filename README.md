@@ -13,7 +13,13 @@ If you want to modify the code, install the dependencies (`npm install`) then `n
 ## Controls
 - Right click and hold + Mouse / WASD / Space to move camera
 - Hold Shift to move faster
-- Tab to switch between showing all views and showing the closest one
+- Tab to cycle through view modes (all views in dataset, closest view, predicted view)
+- 1 to set your camera to a dataset view
+- O to toggle automatic camera orbiting
+- R to reset model weights
+- T to train for 100 more steps, Shift + T to train for 1000
+
+The model will train for 100 steps when all views are loaded
 
 ## Attribution
 
