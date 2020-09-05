@@ -20,7 +20,7 @@ export function loadTransforms() {
             mat.set(new Float32Array(mlist));
             let fixAxes = new p5.Matrix();
             fixAxes.set(new Float32Array([
-                1, 0, 0, 0,
+                -1, 0, 0, 0,
                 0, 0, 1, 0,
                 0, -1, 0, 0,
                 0, 0, 0, 1
@@ -32,7 +32,7 @@ export function loadTransforms() {
             let t = { mat: mat, id: i };
             // precompute cam to origin angles
             let d = sqrt(sq(mat2d[0][3]) + sq(mat2d[1][3]) + sq(mat2d[2][3]));
-            t.cto = { x: -mat2d[0][3] / d, y: mat2d[2][3] / d, z: -mat2d[1][3] / d };
+            t.cto = { x: mat2d[0][3] / d, y: mat2d[2][3] / d, z: -mat2d[1][3] / d };
             sortedTransforms.push(t);
         }
     });
@@ -202,7 +202,6 @@ export class SceneViewer {
             case 82: // R
                 dispose(this.model);
                 this.model = new SceneModel(this);
-                this.model.updateView();
                 break;
             case 84: // T
                 this.trainStepN = 0;
@@ -226,6 +225,7 @@ export class SceneViewer {
     }
 
     update(dt) {
+        // camera
         let c = this.cam;
         if (this.orbit) {
             let t = (cos(this.orbitT * 0.6) + 1) / 2;
@@ -255,6 +255,7 @@ export class SceneViewer {
             }
         }
 
+        // training
         if (gfx.data.length === transforms.frames.length) {
             if (this.trainStepN < this.trainStepMax) {
                 this.model.trainStep();
@@ -267,6 +268,7 @@ export class SceneViewer {
             }
         }
 
+        // prediction
         if (this.doUpdateView) {
             this.model.updateView(!this.viewWasMoved);
         }
