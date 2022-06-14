@@ -2,7 +2,7 @@
 
 Implicit surface renderer for neural view synthesis
 
-(just a dataset viewer for now)
+Trains a single sample ray -> pixel model by first shifting ray origins along the ray to minimize their distance from the center of the scene
 
 ## Running
 
@@ -19,7 +19,7 @@ If you want to modify the code, install the dependencies (`npm install`) then `n
 - R to reset model weights
 - T to train for 100 more steps, Shift + T to train for 1000
 
-The model will train for 100 steps when all views are loaded
+All views must be loaded to start training. The model will train for 100 steps when all views are loaded.
 
 ## Attribution
 
